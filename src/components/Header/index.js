@@ -11,7 +11,6 @@ const Header = ({ isSaving, newFile, removeFile }) => {
 
       <nav>
         <ul className="menu">
-          <li>Baixar</li>
           <li onClick={newFile}>Novo</li>
           <li onClick={removeFile}>Remover</li>
         </ul>

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
-import marked, { use } from "marked";
+import marked from "marked";
 import hljs from "highlight.js";
 import { v4 } from "node-uuid";
 
@@ -8,9 +8,10 @@ import "./App.css";
 
 import Header from "./components/Header";
 import Editor from "./components/Editor";
+import MarkdownFileList from "./components/MarkdownFileList";
 
 marked.setOptions({
-  highlight: (code) => hljs.highlightAuto(code).value,
+  highlight: code => hljs.highlightAuto(code).value,
 });
 
 const App = () => {
@@ -18,13 +19,29 @@ const App = () => {
   const [value, setValue] = useState("");
   const [isSaving, setIsSaving] = useState(null);
   const [id, setId] = useState(v4());
-  
+  const [files, setFiles] = useState([{}]);
+
+  useEffect(() => {
+    setFiles(listFiles());
+  }, []);
+
+  const listFiles = () => {
+    const getFiles = Object.keys(localStorage);
+    return getFiles.reduce(
+      (acc, fileId) => ({
+        ...acc,
+        [fileId]: localStorage.getItem(fileId),
+      }),
+      {}
+    );
+  };
+
   const handleChange = ({ target: { value } }) => {
     setValue(value);
     setIsSaving(true);
   };
 
-  const handleKeyUp = (_) => {
+  const handleKeyUp = _ => {
     let interval;
     clearTimeout(interval);
     interval = setTimeout(() => {
@@ -40,15 +57,22 @@ const App = () => {
     setIsSaving(null);
     textarea.current.focus();
     setId(v4());
-  }
+  };
 
   const newFile = () => {
-    clearState()
+    clearState();
+    setFiles(listFiles());
   };
 
   const removeFile = () => {
     clearState();
     localStorage.removeItem(id);
+    setFiles(listFiles());
+  };
+
+  const handleOpenFile = fileId => {
+    setValue(files[fileId]);
+    setId(fileId);
   };
 
   return (
@@ -61,6 +85,7 @@ const App = () => {
         value={value}
         textarea={textarea}
       />
+      <MarkdownFileList files={files} handleOpenFile={handleOpenFile} />
     </div>
   );
 };
