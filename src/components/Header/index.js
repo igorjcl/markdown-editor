@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 
-import './styles.css';
+import "./styles.css";
 
-const Header = ({isSaving, newFile}) => {
+const Header = ({ isSaving, newFile }) => {
   return (
     <header className="header">
       <span className="saving">
-        { isSaving ? 'Salvando...': 'Salvo!'}
+        {isSaving === null ? "" : (isSaving ? "Salvando..." : "Salvo!")}
       </span>
-      
+
       <nav>
         <ul className="menu">
           <li>Baixar</li>
@@ -16,8 +16,7 @@ const Header = ({isSaving, newFile}) => {
         </ul>
       </nav>
     </header>
-  )
-}
+  );
+};
 
 export default Header;
-
