@@ -2,7 +2,7 @@ import React from "react";
 
 import "./styles.css";
 
-const Header = ({ isSaving, newFile }) => {
+const Header = ({ isSaving, newFile, removeFile }) => {
   return (
     <header className="header">
       <span className="saving">
@@ -12,7 +12,8 @@ const Header = ({ isSaving, newFile }) => {
       <nav>
         <ul className="menu">
           <li>Baixar</li>
-          <li onClick={newFile}>Novo Documento</li>
+          <li onClick={newFile}>Novo</li>
+          <li onClick={removeFile}>Remover</li>
         </ul>
       </nav>
     </header>
