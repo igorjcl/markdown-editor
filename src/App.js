@@ -1,26 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from 'react';
 
-function App() {
+import marked from 'marked'
+import hljs from 'highlight.js'  
+
+import Header from './components/Header'
+import Editor from './components/Editor'
+import './App.css'
+
+marked.setOptions({
+  highlight: (code) => hljs.highlightAuto(code).value
+})
+
+const App = () => { 
+  const [value, setValue] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => setValue(localStorage.getItem('md')), []);
+
+  const handleChange = ({target: {value}}) =>{ 
+    setValue(value)
+    setIsSaving(true)
+  };
+
+  const handleKeyUp = (_) => {
+    let interval;
+    clearTimeout(interval);
+    interval = setTimeout(() => {
+      localStorage.setItem('md', value)
+      setIsSaving(false)
+    }, 1000);
+  }
+
+  const getMarkup = () => ( { __html: marked(value)} )
+  
+  const newFile = () => {
+    setValue('');
+    localStorage.clear()
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <Header isSaving={isSaving} newFile={newFile}/>
+      <Editor 
+        handleChange={handleChange} 
+        handleKeyUp={handleKeyUp} 
+        getMarkup={getMarkup}
+        value={value}
+        />
     </div>
-  );
+  )
 }
 
 export default App;

@@ -1,0 +1,46 @@
+@import '~highlight.js/styles/dracula.css';
+
+.editor {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+}
+
+.editor > .textarea, .view {
+  padding: 20px 20px;
+}
+
+.textarea {
+  resize: none;
+  width: 50%;
+  border-radius: 0;
+  border: none;
+  border-left: 15px solid #8685EF;
+  background-color: #FAF7FF;
+}
+
+.textarea:focus {
+  outline: none;
+}
+
+.view {
+  width: 50%;
+  background-color: #383838;
+  color: #FAF7FF;
+}
+
+@media screen and (max-width: 768px) {
+  .editor {
+    flex-direction: column;
+  }
+
+  .editor > .textarea, .view {
+    width: 100%;
+    height: 50%;
+  }
+
+  .textarea {
+    border-left: none;
+  }
+}

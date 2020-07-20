@@ -1,0 +1,27 @@
+.header {
+  grid-column: 1/2;
+  background-color: #8685EF;
+  padding: 5px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header .saving {
+  color: #FAF7FF;
+}
+
+.menu li { 
+  display: inline-block;
+  padding: 10px 10px;
+  margin: 0px 5px;
+  background-color: #FAF7FF;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.menu li:active { 
+  background-color: #383838;
+  color: #FAF7FF;
+}
+
